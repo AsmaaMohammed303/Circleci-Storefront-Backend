@@ -4,6 +4,9 @@ import orderModel from '../models/order.model';
 import jwt from 'jsonwebtoken';
 //import { config } from 'dotenv';
 import cconfig from '../middleware/config';
+import userModel from '../models/user.model';
+//create instaance from class productmodel
+const objUserModel = new userModel();
 //create instaance from class ordermodel
 const objorderModel = new orderModel();
 
@@ -147,6 +150,32 @@ export const deleteorder = async (
       status: 'success',
       data: order,
       message: 'order Deleted Successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+//********************************authenticate********************************************* */
+export const authenticate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+    const user = await objUserModel.authenticateUser(email, password);
+    //لو رجع يوزر هنعمل GENERATE TO TOKEN
+    const token = jwt.sign({ user }, cconfig.tokenSecret as unknown as string);
+    if (!user) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'User Name And Password Not Match Pleace , Please Try Again',
+      });
+    }
+    return res.json({
+      status: 'success',
+      data: { user, token },
+      message: 'User Authenticated Successfully',
     });
   } catch (error) {
     next(error);

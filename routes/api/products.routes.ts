@@ -19,7 +19,8 @@ routes
   routes
   .route('/deleteSpecificproduct/:id')
   .delete(authenticationMiddlware,controllers.deleteproduct);
-
+  
+  routes.route('/authenticate').post(controllers.authenticate);
 /*
 routes
   .route('/')

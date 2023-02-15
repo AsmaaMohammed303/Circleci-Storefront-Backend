@@ -10,8 +10,9 @@
     "prettier": "prettier --write src/**/*.ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "migration:run": "db-migrate up",
-    "test": "db-migrate --env test up && ENV=test jasmine-ts --config=jasmine.json || db-migrate --env test down",
-    "jasmine": "npm run build && jasmine"
+    "test": "db-migrate --env test up && NODE_ENV=test jasmine-ts --config=jasmine.json || db-migrate --env test down",
+    "jasmine": "npm run build && jasmine",
+    "test:windows": "set NODE_ENV=test && tsc && db-migrate up --env test && tsc && jasmine && db-migrate reset"
   },
   "repository": {
     "type": "git",

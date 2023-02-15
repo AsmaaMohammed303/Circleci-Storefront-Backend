@@ -4,9 +4,10 @@ import productModel from '../models/product.model';
 import jwt from 'jsonwebtoken';
 //import { config } from 'dotenv';
 import cconfig from '../middleware/config';
+import userModel from '../models/user.model';
 //create instaance from class productmodel
 const objproductModel = new productModel();
-
+const objUserModel = new userModel();
 //************************************* create *********************************************** */
 export const createproduct = async (
   req: Request,
@@ -74,7 +75,7 @@ export const getSpecificproduct = async (
     }
     res.json({
       status: 'success',
-      data: jwt.sign({ product }, cconfig.tokenSecret as unknown as string),
+      data: '', //jwt.sign({ product }, cconfig.tokenSecret as unknown as string),
       message: 'product Is Returned Successfully',
     });
   } catch (error) {
@@ -144,6 +145,32 @@ export const deleteproduct = async (
       status: 'success',
       data: product,
       message: 'product Deleted Successfully',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+//********************************authenticate********************************************* */
+export const authenticate = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+    const user = await objUserModel.authenticateUser(email, password);
+    //لو رجع يوزر هنعمل GENERATE TO TOKEN
+    const token = jwt.sign({ user }, cconfig.tokenSecret as unknown as string);
+    if (!user) {
+      return res.status(401).json({
+        status: 'error',
+        message: 'User Name And Password Not Match Pleace , Please Try Again',
+      });
+    }
+    return res.json({
+      status: 'success',
+      data: { user, token },
+      message: 'User Authenticated Successfully',
     });
   } catch (error) {
     next(error);

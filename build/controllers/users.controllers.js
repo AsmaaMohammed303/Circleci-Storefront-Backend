@@ -11,6 +11,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../middleware/config"));
 //create instaance from class usermodel
 const objUserModel = new user_model_1.default();
+let token = '';
 //************************************* create *********************************************** */
 const createUser = async (req, res, next) => {
     try {
@@ -185,7 +186,7 @@ const authenticate = async (req, res, next) => {
         const { email, password } = req.body;
         const user = await objUserModel.authenticateUser(email, password);
         //لو رجع يوزر هنعمل GENERATE TO TOKEN
-        const token = jsonwebtoken_1.default.sign({ user }, config_1.default.tokenSecret);
+        token = jsonwebtoken_1.default.sign({ user }, config_1.default.tokenSecret);
         if (!user) {
             return res.status(401).json({
                 status: 'error',
@@ -203,3 +204,4 @@ const authenticate = async (req, res, next) => {
     }
 };
 exports.authenticate = authenticate;
+exports.default = token;

@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import cconfig from '../middleware/config';
 //create instaance from class usermodel
 const objUserModel = new userModel();
-
+let token = '';
 //************************************* create *********************************************** */
 export const createUser = async (
   req: Request,
@@ -212,7 +212,7 @@ export const authenticate = async (
     const { email, password } = req.body;
     const user = await objUserModel.authenticateUser(email, password);
     //لو رجع يوزر هنعمل GENERATE TO TOKEN
-    const token = jwt.sign({ user }, cconfig.tokenSecret as unknown as string);
+     token = jwt.sign({ user }, cconfig.tokenSecret as unknown as string);
     if (!user) {
       return res.status(401).json({
         status: 'error',
@@ -228,3 +228,5 @@ export const authenticate = async (
     next(error);
   }
 };
+
+export default token;

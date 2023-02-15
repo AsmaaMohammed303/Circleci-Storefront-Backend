@@ -19,20 +19,6 @@ routes
   routes
   .route('/deleteSpecificorder/:id')
   .delete(authenticationMiddlware,controllers.deleteorder);
-
-  /*
-routes
-  .route('/')
-  .get(controllers.getAllorders)
-  .post(authenticationMiddlware, controllers.createorder);
-routes
-  .route('/:id')
-  .get(controllers.getSpecificorder)
-  .patch(authenticationMiddlware, controllers.updateorder)
-  .delete(authenticationMiddlware, controllers.deleteorder);
-*/
-//routes.route('/authenticate').post(controllers.authenticate);
-
-//routes.post('/',controllers.create);
-
+  routes.route('/authenticate').post(controllers.authenticate);
+  
 export default routes;

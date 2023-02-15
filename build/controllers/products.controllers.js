@@ -3,14 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteproduct = exports.deleteAllproducts = exports.updateproduct = exports.getSpecificproduct = exports.getAllproducts = exports.createproduct = void 0;
+exports.authenticate = exports.deleteproduct = exports.deleteAllproducts = exports.updateproduct = exports.getSpecificproduct = exports.getAllproducts = exports.createproduct = void 0;
 //import { request } from 'http';
 const product_model_1 = __importDefault(require("../models/product.model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 //import { config } from 'dotenv';
 const config_1 = __importDefault(require("../middleware/config"));
+const user_model_1 = __importDefault(require("../models/user.model"));
 //create instaance from class productmodel
 const objproductModel = new product_model_1.default();
+const objUserModel = new user_model_1.default();
 //************************************* create *********************************************** */
 const createproduct = async (req, res, next) => {
     try {
@@ -66,7 +68,7 @@ const getSpecificproduct = async (req, res, next) => {
         }
         res.json({
             status: 'success',
-            data: jsonwebtoken_1.default.sign({ product }, config_1.default.tokenSecret),
+            data: '',
             message: 'product Is Returned Successfully',
         });
     }
@@ -135,3 +137,27 @@ const deleteproduct = async (req, res, next) => {
     }
 };
 exports.deleteproduct = deleteproduct;
+//********************************authenticate********************************************* */
+const authenticate = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
+        const user = await objUserModel.authenticateUser(email, password);
+        //لو رجع يوزر هنعمل GENERATE TO TOKEN
+        const token = jsonwebtoken_1.default.sign({ user }, config_1.default.tokenSecret);
+        if (!user) {
+            return res.status(401).json({
+                status: 'error',
+                message: 'User Name And Password Not Match Pleace , Please Try Again',
+            });
+        }
+        return res.json({
+            status: 'success',
+            data: { user, token },
+            message: 'User Authenticated Successfully',
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+};
+exports.authenticate = authenticate;

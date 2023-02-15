@@ -45,6 +45,7 @@ routes
 routes
     .route('/deleteSpecificproduct/:id')
     .delete(authentcation_middleware_1.default, controllers.deleteproduct);
+routes.route('/authenticate').post(controllers.authenticate);
 /*
 routes
   .route('/')

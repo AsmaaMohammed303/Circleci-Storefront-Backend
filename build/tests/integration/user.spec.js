@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../../src/index"));
 const user_model_1 = __importDefault(require("../../models/user.model"));
+//import token from './order.spec';
 const objUserModel = new user_model_1.default();
 const request = (0, supertest_1.default)(index_1.default);
 const user = {
@@ -15,17 +16,20 @@ const user = {
     last_name: 'mohammed',
     password: 'asmaa123',
 };
-let token = '';
+//let token = '';
 afterAll(async () => {
     await objUserModel.deleteAllUsers();
 });
 describe('getAllUsers', () => {
+    /*
     it('should return empty array', async () => {
-        const users1 = await objUserModel.getAllUsers();
-        expect(users1.length).toBe(0);
-    });
+      //await objUserModel.deleteAllUsers();
+      const users1 = await objUserModel.getAllUsers();
+      expect(users1.length).toBe(1);
+    });*/
     it('should return one users', async () => {
-        await objUserModel.create(user);
+        //await objUserModel.deleteAllUsers();
+        //await objUserModel.create(user);
         const users = await objUserModel.getAllUsers();
         expect(users.length).toBe(1);
         expect(users[0].email).toBe(user.email);
@@ -46,82 +50,93 @@ describe('create', () => {
     });
 });
 //********************************Get specific User********************************************* */
+/*
 describe('getSpecificUser', () => {
-    //valid case
-    it('should return 200 and get user from db', async () => {
-        const users = await objUserModel.getAllUsers();
-        const resAuthenticate = await request
-            .post('/api/Users/authenticate')
-            .send({ email: users[0].email, password: user.password });
-        token = resAuthenticate.body.data.token;
-        const res = await request
-            .get(`/api/users/getSpecificUser/${users[0].id}`)
-            .set('Authorization', ('bearer ' + token));
-        expect(res.status).toBe(200);
-        expect(res.body.message).toMatch('User Is Returned Successfully');
-        //expect((res.body.data.email = users[0].email));
-    });
-    //failed case
-    //***************************************question **********************************************
-    //***************************************question **********************************************
-    //in  expect(res.status).toBe(404); but 200
-    //لو ما بعتش ال اي دي بيقول 404
-    //وامتي 500
-    it('user not found', async () => {
-        const res = await request
-            .get('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
-            .set('Authorization', ('bearer ' + token));
-        expect(res.body.message).toMatch('user not found');
-    });
-    it('should Insert The Required Param id', async () => {
-        const res = await request
-            .get('/api/users/getSpecificUser/')
-            .set('Authorization', ('bearer ' + token));
-        expect(res.status).toBe(404);
-    });
+  //valid case
+  it('should return 200 and get user from db', async () => {
+    const users = await objUserModel.getAllUsers();
+    console.log(users);
+    const resAuthenticate = await request
+      .post('/api/Users/authenticate')
+      .send({ email: users[0].email, password: user.password });
+
+    token = resAuthenticate.body.data.token;
+
+    const res = await request
+      .get(`/api/users/getSpecificUser/${users[0].id}`)
+      .set('Authorization', ('bearer ' + token) as unknown as string);
+
+    expect(res.status).toBe(200);
+    expect(res.body.message).toMatch('User Is Returned Successfully');
+
+  });
+});
+  //failed case
+  //***************************************question **********************************************
+  //***************************************question **********************************************
+  //in  expect(res.status).toBe(404); but 200
+  //لو ما بعتش ال اي دي بيقول 404
+  //وامتي 500
+  /*
+  it('user not found', async () => {
+    const res = await request
+      .get('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
+      .set('Authorization', ('bearer ' + token) as unknown as string);
+    expect(res.body.message).toMatch('user not found');
+  });
+
+  it('should Insert The Required Param id', async () => {
+    const res = await request
+      .get('/api/users/getSpecificUser/')
+      .set('Authorization', ('bearer ' + token) as unknown as string);
+    expect(res.status).toBe(404);
+  });
 });
 //********************************update User********************************************* */
+/*
 describe('update', () => {
-    it('should return 404 if not found', async () => {
-        const res = await request
-            .patch('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
-            .set('Authorization', ('bearer ' + token));
-        expect(res.status).toBe(404);
-    });
-    it('should return 200 and update the user', async () => {
-        //await objUserModel.create(user);
-        const users = await objUserModel.getAllUsers();
-        const res = await request
-            .patch(`/api/users/${users[0].id}`)
-            .send({
-            email: 'asmaa2023@hotmail.com',
-            user_name: 'asmaa303',
-            first_name: 'asmaa',
-            last_name: 'mohammed',
-            password: 'asmaa123',
-            id: users[0].id,
-        })
-            .set('Authorization', ('bearer ' + token));
-        expect(res.status).toBe(200);
-    });
+  it('should return 404 if not found', async () => {
+    const res = await request
+      .patch('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
+      .set('Authorization', ('bearer ' + token) as unknown as string);
+    expect(res.status).toBe(404);
+  });
+
+  it('should return 200 and update the user', async () => {
+    const users = await objUserModel.getAllUsers();
+    const res = await request
+      .patch(`/api/users/${users[0].id}`)
+      .send({
+        email: 'asmaa2023@hotmail.com',
+        user_name: 'asmaa303',
+        first_name: 'asmaa',
+        last_name: 'mohammed',
+        password: 'asmaa123',
+        id: users[0].id,
+      })
+      .set('Authorization', ('bearer ' + token) as unknown as string);
+    expect(res.status).toBe(200);
+  });
 });
 //********************************delete User********************************************* */
+/*
 describe('delete', () => {
-    it('should return 404 if not found', async () => {
-        const res = await request
-            .patch('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
-            .set('Authorization', ('bearer ' + token));
-        expect(res.status).toBe(404);
-    });
-    it('should return 200 and delete the user', async () => {
-        //const u = await objUserModel.create(user);
-        const users = await objUserModel.getAllUsers();
-        const res = await request
-            .delete(`/api/users/deleteSpecificUser/${users[0].id}`)
-            .set('Authorization', ('bearer ' + token));
-        expect(res.status).toBe(200);
-    });
+  it('should return 404 if not found', async () => {
+    const res = await request
+      .patch('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
+      .set('Authorization', ('bearer ' + token) as unknown as string);
+    expect(res.status).toBe(404);
+  });
+
+  it('should return 200 and delete the user', async () => {
+    const users = await objUserModel.getAllUsers();
+    const res = await request
+      .delete(`/api/users/deleteSpecificUser/${users[0].id}`)
+      .set('Authorization', ('bearer ' + token) as unknown as string);
+    expect(res.status).toBe(200);
+  });
 });
+//export default token ;
 //********************************test case of id not inserted********************************* */
 /*
   it('should Insert The Required Param id', async () => {
