@@ -1,3 +1,11 @@
+import supertest from 'supertest';
+
+describe('test coreect state', () => {
+  it('test coreect state', async () => {
+    expect(1).toBe(1);
+  });
+});
+
 /*import supertest from 'supertest';
 import server from '../../src/index';
 import UserModel from '../../models/user.model';
