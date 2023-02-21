@@ -14,7 +14,7 @@ const user: user = {
   password: 'asmaa123',
 };
 
-//let token = '';
+let token = '';
 afterAll(async () => {
   await objUserModel.deleteAllUsers();
 });

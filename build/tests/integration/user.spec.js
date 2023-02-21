@@ -16,7 +16,7 @@ const user = {
     last_name: 'mohammed',
     password: 'asmaa123',
 };
-//let token = '';
+let token = '';
 afterAll(async () => {
     await objUserModel.deleteAllUsers();
 });
@@ -50,47 +50,42 @@ describe('create', () => {
     });
 });
 //********************************Get specific User********************************************* */
-/*
 describe('getSpecificUser', () => {
-  //valid case
-  it('should return 200 and get user from db', async () => {
-    const users = await objUserModel.getAllUsers();
-    console.log(users);
-    const resAuthenticate = await request
-      .post('/api/Users/authenticate')
-      .send({ email: users[0].email, password: user.password });
-
-    token = resAuthenticate.body.data.token;
-
-    const res = await request
-      .get(`/api/users/getSpecificUser/${users[0].id}`)
-      .set('Authorization', ('bearer ' + token) as unknown as string);
-
-    expect(res.status).toBe(200);
-    expect(res.body.message).toMatch('User Is Returned Successfully');
-
-  });
+    //valid case
+    it('should return 200 and get user from db', async () => {
+        const users = await objUserModel.getAllUsers();
+        console.log(users);
+        const resAuthenticate = await request
+            .post('/api/Users/authenticate')
+            .send({ email: users[0].email, password: user.password });
+        token = resAuthenticate.body.data.token;
+        const res = await request
+            .get(`/api/users/getSpecificUser/${users[0].id}`)
+            .set('Authorization', ('bearer ' + token));
+        expect(res.status).toBe(200);
+        expect(res.body.message).toMatch('User Is Returned Successfully');
+    });
 });
-  //failed case
-  //***************************************question **********************************************
-  //***************************************question **********************************************
-  //in  expect(res.status).toBe(404); but 200
-  //لو ما بعتش ال اي دي بيقول 404
-  //وامتي 500
-  /*
-  it('user not found', async () => {
-    const res = await request
-      .get('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
-      .set('Authorization', ('bearer ' + token) as unknown as string);
-    expect(res.body.message).toMatch('user not found');
-  });
+//failed case
+//***************************************question **********************************************
+//***************************************question **********************************************
+//in  expect(res.status).toBe(404); but 200
+//لو ما بعتش ال اي دي بيقول 404
+//وامتي 500
+/*
+it('user not found', async () => {
+  const res = await request
+    .get('/api/users/getSpecificUser/6046bcf7-2f91-4dac-8443-b99ee9774203')
+    .set('Authorization', ('bearer ' + token) as unknown as string);
+  expect(res.body.message).toMatch('user not found');
+});
 
-  it('should Insert The Required Param id', async () => {
-    const res = await request
-      .get('/api/users/getSpecificUser/')
-      .set('Authorization', ('bearer ' + token) as unknown as string);
-    expect(res.status).toBe(404);
-  });
+it('should Insert The Required Param id', async () => {
+  const res = await request
+    .get('/api/users/getSpecificUser/')
+    .set('Authorization', ('bearer ' + token) as unknown as string);
+  expect(res.status).toBe(404);
+});
 });
 //********************************update User********************************************* */
 /*
