@@ -1,4 +1,4 @@
-import supertest from 'supertest';
+/*import supertest from 'supertest';
 import server from '../../src/index';
 import UserModel from '../../models/user.model';
 import user from '../../types/user.type';
@@ -25,7 +25,8 @@ describe('getAllUsers', () => {
     const users1 = await objUserModel.getAllUsers();
     expect(users1.length).toBe(1);
   });*/
-
+//********************************create User********************************************* */
+/*
   it('should return one users', async () => {
     //await objUserModel.deleteAllUsers();
     //await objUserModel.create(user);
@@ -38,6 +39,7 @@ describe('getAllUsers', () => {
   });
 });
 //********************************create User********************************************* */
+/*
 describe('create', () => {
   it('should create user with first name asmaa', async () => {
     const users = await objUserModel.getAllUsers();

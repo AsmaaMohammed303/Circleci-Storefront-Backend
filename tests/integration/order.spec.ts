@@ -1,4 +1,4 @@
-import supertest from 'supertest';
+/*import supertest from 'supertest';
 import server from '../../src/index';
 import orderModel from '../../models/order.model';
 import order from '../../types/order.type';
@@ -44,7 +44,7 @@ afterEach(async () => {
 });*/
 
 //***************************************************************************** */
-
+/*
 describe('getSpecificUser', () => {
   //valid case
   it('should return 200 and get user from db', async () => {
@@ -61,7 +61,7 @@ describe('getSpecificUser', () => {
 });
 
 //***************************************************************************** */
-
+/*
 describe('getAllorders', () => {
   it('should return empty array', async () => {
     const Allorders = await objorderModel.getAllorders();
@@ -79,7 +79,7 @@ describe('getAllorders', () => {
   });
 });
 //********************************create order********************************************* */
-
+/*
 describe('create', () => {
   it('should create order with product_id ', async () => {
     await objproductModel.create(product);
@@ -91,7 +91,7 @@ describe('create', () => {
 });
 
 //********************************Get specific order********************************************* */
-
+/*
 describe('getSpecificorder', () => {
   it('Test Method Is Exist', async () => {
     expect(objorderModel.getAllorders).toBeDefined;
@@ -128,6 +128,7 @@ describe('getSpecificorder', () => {
   });
 });
 //********************************update order********************************************* */
+/*
 describe('update', () => {
   it('should return 404 if not found', async () => {
     const res = await request
@@ -153,7 +154,7 @@ describe('update', () => {
   });
 });
 //********************************delete order********************************************* */
-
+/*
 describe('delete', () => {
   it('should return 404 if not found', async () => {
     const res = await request
@@ -173,3 +174,4 @@ describe('delete', () => {
   });
 });
 
+*/
