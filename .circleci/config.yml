@@ -28,7 +28,7 @@ jobs:
       # run tests!
       - run:
           name: Run Tests
-          command: npm run test
+          command: npm run jasmine
 
       - run:
           name: Build
