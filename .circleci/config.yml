@@ -1,0 +1,44 @@
+version: 2.1
+
+jobs:
+  deploy:
+  docker :
+    - image : cimg/node:16.10
+
+#Download and cash dependecies
+  - restore cashe :
+    keys : 
+      - v1-dependencies-{{ checksum "package.json" }}
+      - v1-dependencies-
+
+ - run :
+   name : "install dependencies"    
+   command : npm install
+
+- save_cashe : 
+  paths : 
+    - node_modules 
+  keys : 
+    - v1-dependencies-{{ checksum "package.json" }}
+
+#run test 
+- run :
+  name : "Tests"
+  command : npm run jasmine
+
+
+- run :
+  name : "Build"
+  command : npm run build
+
+  - run :
+  name : "Netlify"
+  command : npm run deploy
+
+workflows:
+  build_deploy : 
+    jobs :
+     - deploy
+    steps : 
+     - checkout
+
